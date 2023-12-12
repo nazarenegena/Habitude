@@ -1,7 +1,41 @@
 "use client";
 import Link from "next/link";
 import React from "react";
-import Box from "../ui/box";
+
+const nav = [
+  {
+    link: "/",
+    title: "home",
+    icon: "icone"
+  },
+   {
+    link: "/dashboard",
+    title: "dashboard",
+    icon: "icone"
+  },
+    {
+    link: "/dashboard/progress",
+    title: "progress",
+    icon: "icone"
+  },
+     {
+    link: "/dashboard/planner",
+    title: "planner",
+    icon: "icone"
+  },
+       {
+    link: "/dashboard/tasks",
+    title: "tasks",
+    icon: "icone"
+  }
+]
+const SidebarItem = ({ className, href, title }) => {
+  return (
+      
+      <Link href={href} className={`${className} hover:bg-accent  px-5 py-5  mx-0 my-8 cursor-pointer flex flex-row `}>{title}</Link>
+    
+  )
+}
 
 const Sidebar = ({ children }) => {
   return (
@@ -16,28 +50,19 @@ const Sidebar = ({ children }) => {
             p-2 md:flex"
         
       >
-      
+        <div className="mt-4 ">Logo here</div>
+        <div className="mt-20">
+ {nav.map((navItem, index) => (
+              <SidebarItem key={index} title={navItem.title} href={navItem.link} />
+
+))}
+
+        </div>
+
+         
+       
         {" "}
-        <Box className="px-5 py-5">
-            <Link href="/">home</Link>
-
-        </Box>
-        <Box className="px-5 py-5">
-            <Link href="/dashboard">Dashboard</Link>
-
-        </Box>
-        <Box className="px-5 py-5">
-            <Link href="/dashboard/progress">Progress</Link>
-
-        </Box>
-        <Box className="px-5 py-5">
-            <Link href="/dashboard/planner">Planner</Link>
-
-        </Box>
-        <Box className="px-5 py-5">
-            <Link href="/dashboard/tasks">To-do</Link>
-
-        </Box>
+       
       </div>
       <div>{children}</div>
     </div>
