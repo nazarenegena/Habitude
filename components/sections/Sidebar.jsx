@@ -1,41 +1,48 @@
 "use client";
 import Link from "next/link";
 import React from "react";
+import { HiHome } from "react-icons/hi";
+import { MdDashboard } from "react-icons/md";
+import { GiProgression } from "react-icons/gi";
+import { FcPlanner } from "react-icons/fc";
+import Lottie from "lottie-react";
+import todoClip from "@/public/images/todo-clip.json";
+import { IoIosAdd } from "react-icons/io";
+import { ImAccessibility } from "react-icons/im";
 
 const nav = [
   {
     link: "/",
     title: "home",
-    icon: "icone"
+    icon: <HiHome />,
   },
-   {
+  {
     link: "/dashboard",
     title: "dashboard",
-    icon: "icone"
+    icon: <MdDashboard />,
   },
-    {
+  {
     link: "/dashboard/progress",
     title: "progress",
-    icon: "icone"
+    icon: <GiProgression />,
   },
-     {
+  {
     link: "/dashboard/planner",
     title: "planner",
-    icon: "icone"
+    icon: <FcPlanner />,
   },
-       {
-    link: "/dashboard/tasks",
-    title: "tasks",
-    icon: "icone"
-  }
-]
-const SidebarItem = ({ className, href, title }) => {
+];
+const SidebarItem = ({ className, href, title, icon }) => {
   return (
-      
-      <Link href={href} className={`${className} hover:bg-accent  px-5 py-5  mx-0 my-8 cursor-pointer flex flex-row `}>{title}</Link>
-    
-  )
-}
+    <Link
+      href={href}
+      className={`${className} hover:bg-accent  px-5 py-5  mx-0 my-8 cursor-pointer flex flex-row transition ease-in-out delay-150 duration-300 items-center `}
+    >
+      <span className="mr-6">{icon}</span>
+      {title}
+    </Link>
+  );
+};
 
 const Sidebar = ({ children }) => {
   return (
@@ -48,22 +55,32 @@ const Sidebar = ({ children }) => {
             flex-col
             gap-y-2
             p-2 md:flex"
-        
       >
-        <div className="mt-4 ">Logo here</div>
-        <div className="mt-20">
- {nav.map((navItem, index) => (
-              <SidebarItem key={index} title={navItem.title} href={navItem.link} />
-
-))}
-
+        <div className="mt-20 flex mt-10">
+          <p className="text-2xl ml-5 flex tracking-widest font-semibold">
+            Hab <ImAccessibility className="mt-1" size={20} />
+            tude
+          </p>
         </div>
-
-         
-       
-        {" "}
-       
+        <div className="mt-20">
+          {nav.map((navItem, index) => (
+            <SidebarItem
+              key={index}
+              title={navItem.title}
+              href={navItem.link}
+              icon={navItem.icon}
+            />
+          ))}
+        </div>
+        <div className="mt-20">
+          <Lottie animationData={todoClip} loop={true} className="ml-10" />
+          <div className="flex items-center justify-center bg-accent font-semibold cursor-pointer ml-10 py-2 w-44 rounded-lg transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-100 hover:bg-primary duration-300">
+            <IoIosAdd className="mr-3" size={20} />
+            <Link href="/dashboard/tasks">Add Task</Link>
+          </div>
+        </div>
       </div>
+
       <div>{children}</div>
     </div>
   );
