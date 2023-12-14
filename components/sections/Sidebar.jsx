@@ -9,6 +9,7 @@ import Lottie from "lottie-react";
 import todoClip from "@/public/images/todo-clip.json";
 import { IoIosAdd } from "react-icons/io";
 import { ImAccessibility } from "react-icons/im";
+import { ModeToggle } from "../toggle-mode";
 
 const nav = [
   {
@@ -36,7 +37,7 @@ const SidebarItem = ({ className, href, title, icon }) => {
   return (
     <Link
       href={href}
-      className={`${className} hover:bg-accent  px-5 py-5  mx-0 my-8 cursor-pointer flex flex-row transition ease-in-out delay-150 duration-300 items-center `}
+      className={`${className} hover:bg-primary hover:rounded-md text-lg  px-5 py-5  mx-0 my-8 cursor-pointer flex flex-row transition ease-in-out delay-150 duration-300 items-center `}
     >
       <span className="mr-6">{icon}</span>
       {title}
@@ -49,14 +50,18 @@ const Sidebar = ({ children }) => {
     <div className="flex h-full">
       <div
         className="hidden
-        bg-muted
+        bg-background
+        border
+        border-muted
             h-full
             w-[300px]
             flex-col
             gap-y-2
-            p-2 md:flex"
+            p-2 md:flex
+            
+            "
       >
-        <div className="mt-20 flex mt-10">
+        <div className="mt-20 flex mt-18">
           <p className="text-2xl ml-5 flex tracking-widest font-semibold">
             Hab <ImAccessibility className="mt-1" size={20} />
             tude
@@ -72,12 +77,15 @@ const Sidebar = ({ children }) => {
             />
           ))}
         </div>
-        <div className="mt-20">
+        <div className="">
           <Lottie animationData={todoClip} loop={true} className="ml-10" />
-          <div className="flex items-center justify-center bg-accent font-semibold cursor-pointer ml-10 py-2 w-44 rounded-lg transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-100 hover:bg-primary duration-300">
+          <div className="flex items-center justify-center bg-muted font-semibold cursor-pointer ml-10 py-2 w-44 rounded-lg transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-100 hover:bg-primary duration-300">
             <IoIosAdd className="mr-3" size={20} />
             <Link href="/dashboard/tasks">Add Task</Link>
           </div>
+        </div>
+        <div className="mt-12 ml-56">
+          <ModeToggle />
         </div>
       </div>
 

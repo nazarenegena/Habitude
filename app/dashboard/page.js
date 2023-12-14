@@ -3,7 +3,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <div>
+    <div className="h-screen mt-0">
       <DashboardDisplay />
     </div>
   );
