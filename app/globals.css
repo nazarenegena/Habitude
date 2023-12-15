@@ -2,7 +2,18 @@
 @tailwind components;
 @tailwind utilities;
  
-
+.progress-ring__circle {
+  stroke-dasharray: 150, 200;
+  transition: stroke-dashoffset 0.35s;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+.progress-ring .dark{
+  stroke-dasharray: 150, 200;
+  transition: stroke-dashoffset 0.35s;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
 @layer base {
   :root {
     --background: 0 0% 100%;

@@ -3,7 +3,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className="h-screen mt-0">
+    <div className=" mt-0 overflow-hidden">
       <DashboardDisplay />
     </div>
   );

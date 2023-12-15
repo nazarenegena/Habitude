@@ -1,33 +1,60 @@
-import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+"use client";
+import React, { useState } from "react";
+import ProgressLineChart from "../charts/lineCharts";
+import { Card, CardContent, CardTitle, CardDescription } from "../ui/card";
+import Link from "next/link";
+
+const sidebarNav = [
+  {
+    link: "/dashboard/progress",
+    title: "Your Highlights",
+    description: "Checkout your daily activities",
+  },
+  {
+    link: "/dashboard/progress",
+    title: "Assessments",
+    description: "Get to assess your progress",
+  },
+  {
+    link: "/dashboard/planner",
+    title: "Goals",
+    description: "Plan your goals and daily intentions",
+  },
+  {
+    link: "/dashboard/planner",
+    title: "News",
+    description: "Subscribe to get tips on healthy habits",
+  },
+];
 
 const MiddleDashboardDisplay = () => {
   return (
     <div>
-      <p className="text-muted-foreground text-lg tracking-widest">
-        Welcome back
-      </p>
-      <div className="mt-5 flex">
-        <Card className="w-[100%] h-64 ">
-          <CardTitle>The graph</CardTitle>
-        </Card>
+      <div>
+        <p className=" text-2xl font-semibold tracking-widest ">Welcome back</p>
+        <p className="text-muted-foreground text-medium tracking-widest mt-2">
+          Monitor your progress
+        </p>
       </div>
-      <div className="mt-14 flex justify-center">
-        <Card className="w-[50%] h-80  border-4 border-muted">
-          <CardTitle>The calender</CardTitle>
-        </Card>
+      <div className="mt-5 ">
+        <ProgressLineChart />
       </div>
-      <div className="mt-10 flex">
-        <Card className="w-[100%] h-40 ">
-          <CardTitle>The news</CardTitle>
-        </Card>
+
+      <div className="grid grid-cols-2 gap-x-8 gap-y-12 mt-16">
+        {sidebarNav.map((sidebarNavItem, index) => (
+          <Card className=" h-32 hover:border-primary" key={index}>
+            <CardContent className="flex flex-row justify-center items-center py-6">
+              <Link href={sidebarNavItem.link}>
+                <p className="text-lg font-semibold tracking-widest ">
+                  {sidebarNavItem.title}
+                </p>
+                <p className="mt-2 text-muted-foreground text-medium tracking-widest">
+                  {sidebarNavItem.description}
+                </p>
+              </Link>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   );
