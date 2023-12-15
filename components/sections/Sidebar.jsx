@@ -47,13 +47,12 @@ const SidebarItem = ({ className, href, title, icon }) => {
 
 const Sidebar = ({ children }) => {
   return (
-    <div className="flex h-full">
+    <div className="flex">
       <div
         className="hidden
         bg-background
         border
         border-muted
-            h-full
             w-[300px]
             flex-col
             gap-y-2
@@ -63,7 +62,7 @@ const Sidebar = ({ children }) => {
       >
         <div className="mt-20 flex mt-18">
           <p className="text-2xl ml-5 flex tracking-widest font-semibold">
-            Hab <ImAccessibility className="mt-1" size={20} />
+            Hab <ImAccessibility className="mt-1" size={20} fill="#6937C8" />
             tude
           </p>
         </div>
