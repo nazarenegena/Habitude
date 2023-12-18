@@ -1,3 +1,9 @@
+import TasksDisplay from "@/components/sections/TasksDisplay";
+
 export default function Page() {
-  return <p>The tasks route page</p>;
+  return (
+    <div>
+      <TasksDisplay />
+    </div>
+  );
 }
