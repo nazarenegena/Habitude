@@ -1,14 +1,9 @@
-import RootLayout from "@/app/layout";
-import DashboardLayout from "../page";
+import PlannerDisplay from "@/components/sections/PlannerDisplay";
 
 export default function Page() {
-  return <main>The planner route page</main>;
-}
-
-Page.getLayout = function getLayout(page) {
   return (
-    <RootLayout>
-      <DashboardLayout>{page}</DashboardLayout>
-    </RootLayout>
+    <main>
+      <PlannerDisplay />
+    </main>
   );
-};
+}
