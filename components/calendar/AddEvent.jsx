@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import {
   Dialog,
@@ -25,20 +25,48 @@ import { Textarea } from '../ui/textarea';
 import { usePlannerContext } from '@/lib/context/plannerContext';
 import { Popover, PopoverTrigger, PopoverContent } from '../ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { CalendarIcon } from 'lucide-react';
+import { CalendarIcon, Check, CheckCircle, ChevronsUpDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+import { v4 as uuid } from 'uuid';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem
+} from '@/components/ui/command';
+
+const colors = [
+  { label: 'Green', value: 'green' },
+  { label: 'Blue', value: 'blue' },
+  { label: 'Red', value: 'red' },
+  { label: 'Orange', value: 'orange' },
+  { label: 'Violet', value: 'violet' },
+  { label: 'Zinc', value: 'zinc' },
+  { label: 'Yellow', value: 'yellow' },
+  { label: 'Purple', value: 'purple' },
+  { label: 'Black', value: 'black' }
+];
+
 const AddEvent = () => {
+  const [open, setOpen] = useState(false);
   const form = useForm();
   const { setSchedules } = usePlannerContext();
 
   function handleAddEvent(data) {
-    console.log(data);
-    setSchedules(prev => [...prev, data]);
+    const payload = {
+      ...data,
+      id: uuid(),
+      start_time: '1AM',
+      end_time: '12PM'
+    };
+    setSchedules(prev => [...prev, payload]);
+    setOpen(false);
   }
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant='outline'>Add Schedule</Button>
       </DialogTrigger>
@@ -147,6 +175,68 @@ const AddEvent = () => {
                     </PopoverContent>
                   </Popover>
 
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='color'
+              render={({ field }) => (
+                <FormItem className='flex flex-col'>
+                  <FormLabel>color</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant='outline'
+                          role='combobox'
+                          className={cn(
+                            'justify-between',
+                            !field.value
+                              ? 'text-muted-foreground'
+                              : 'text-' + field.value + '-400'
+                          )}
+                        >
+                          {field.value
+                            ? colors.find(color => color.value === field.value)
+                                ?.label
+                            : 'Select color'}
+                          <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className='p-0'>
+                      <Command>
+                        <CommandInput placeholder='Search color...' />
+                        <CommandEmpty>No color found.</CommandEmpty>
+                        <CommandGroup>
+                          {colors.map(color => (
+                            <CommandItem
+                              value={color.label}
+                              key={color.value}
+                              onSelect={() => {
+                                form.setValue('color', color.value);
+                              }}
+                            >
+                              <CheckCircle
+                                className={cn(
+                                  'mr-2 h-4 w-4',
+                                  color.value === field.value
+                                    ? `opacity-100 `
+                                    : 'opacity-0'
+                                )}
+                              />
+                              {color.label}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                  <FormDescription>
+                    This is the color that will be used in the dashboard.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

@@ -18,6 +18,7 @@ import enUS from 'date-fns/locale/en-US';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import AddEvent from '../calendar/AddEvent';
 import { usePlannerContext } from '@/lib/context/plannerContext';
+import CustomCalendar from '../calendar';
 
 const locales = {
   'en-US': enUS
@@ -50,8 +51,10 @@ const PlannerDisplay = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
+          <CustomCalendar schedules={schedules} />
+
           <CardDescription>
-            <Calendar
+            {/* <Calendar
               localizer={localizer}
               events={schedules}
               startAccessor='start'
@@ -71,7 +74,7 @@ const PlannerDisplay = () => {
                   </div>
                 )
               }}
-            />
+            /> */}
           </CardDescription>
         </CardContent>
       </Card>
