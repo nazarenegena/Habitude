@@ -45,7 +45,7 @@ const AddTask = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button>
+        <Button className="bg-muted text-foreground">
           <IoIosAdd className="mr-3" size={20} />
           Add New Task
         </Button>

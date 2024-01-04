@@ -34,9 +34,10 @@ const LandingPage = () => {
   return (
     <div className="h-full w-full">
       <div>
-        <div className="sticky top-0 z-40 bg-background flex justify-between px-8 py-4 font-mono shadow-lg  ">
+        <div className="sticky top-0 z-40 bg-background flex justify-between px-8 py-4 font-mono shadow-lg">
           {/* Navbar section */}
-          <div className="flex items-center text-2xl ml-5 flex tracking-widest font-semibold">
+
+          <div className="items-center text-2xl  flex tracking-widest font-semibold cursor-pointer">
             Hab <ImAccessibility className="mt-1" size={24} fill="#6937C8" />
             tude
           </div>
@@ -64,8 +65,9 @@ const LandingPage = () => {
               className={
                 " text-bold w-30 mr-10 rounded-md border-2 border-primary px-8 py-2 font-medium  transition hover:border-muted hover:bg-muted  "
               }
+              asChild
             >
-              Sign In
+              <Link href="/dashboard">Sign In</Link>
             </Button>
             <Button
               onClick={handleSignUp}
@@ -73,7 +75,7 @@ const LandingPage = () => {
                 " w-30 mr-8 rounded-md text-foreground border-2 border-muted bg-muted px-8 py-2 font-medium transition hover:border-primary hover:bg-primary "
               }
             >
-              Sign Up
+              <Link href="/dashboard">Sign Up</Link>
             </Button>
 
             <ModeToggle />
@@ -162,7 +164,7 @@ const LandingPage = () => {
                   accordingly
                   <br />
                   Get to seamlessly customize your to-dos <br />
-                  <Button className="mt-12 flex h-12 w-44 cursor-pointer items-center justify-center rounded-lg border-2 border-primary bg-primary  px-4 py-3 font-mono font-medium transition hover:bg-muted hover:border-muted ">
+                  <Button className="mt-12 flex h-12 w-44 cursor-pointer items-center justify-center rounded-lg border-2 border-primary bg-primary  px-4 py-3 font-mono font-medium transition hover:bg-muted hover:border-muted active:border-primary">
                     <Link href="/dashboard">
                       <p>Get Started</p>
                     </Link>

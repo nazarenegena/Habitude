@@ -31,8 +31,7 @@ const MiddleDashboardDisplay = () => {
   return (
     <div>
       <div>
-        <p className=" text-2xl font-semibold tracking-widest ">Welcome back</p>
-        <p className="text-muted-foreground text-medium tracking-widest mt-2">
+        <p className="text-muted-foreground text-lg tracking-widest ">
           Monitor your progress
         </p>
       </div>
