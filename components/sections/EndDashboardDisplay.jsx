@@ -33,7 +33,7 @@ const EndDashboardDisplay = () => {
   const [date, setDate] = useState(Date | undefined);
 
   return (
-    <div className="mt-20 w-[30rem]">
+    <div className="mt-14 w-[30rem]">
       <div className="ml-10 h-full">
         <Calendar
           mode="single"
