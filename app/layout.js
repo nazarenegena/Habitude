@@ -1,6 +1,8 @@
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
+import { PlannerContextProvider } from "@/lib/context/plannerContext";
+import { TaskContextProvider } from "@/lib/context/taskContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +21,9 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <PlannerContextProvider>
+            <TaskContextProvider>{children}</TaskContextProvider>
+          </PlannerContextProvider>
         </ThemeProvider>
       </body>
     </html>
