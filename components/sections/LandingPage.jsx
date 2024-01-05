@@ -6,31 +6,11 @@ import { BsGithub } from "react-icons/bs";
 import { BsLinkedin } from "react-icons/bs";
 import { Button } from "@/components/ui/button";
 import { ImAccessibility } from "react-icons/im";
-import { dashboardSection } from "../../public/images/dashboard.png";
-// import SignIn from "../auth/SignIn";
-// import SignUp from "../auth/SignUp";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { ModeToggle } from "../toggle-mode";
+import SignIn from "../../app/auth/login/Login";
+import SignUp from "../../app/auth/registration/Register";
 
 const LandingPage = () => {
-  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-
-  const handleSignUp = () => {
-    setIsSignUpOpen(!isSignUpOpen);
-  };
-
-  const handleLogin = () => {
-    setIsLoginOpen(!isLoginOpen);
-  };
-
   return (
     <div className="h-full w-full">
       <div>
@@ -60,23 +40,8 @@ const LandingPage = () => {
           </div>
 
           <div className="flex justify-center mt-4">
-            <Button
-              onClick={handleLogin}
-              className={
-                " text-bold w-30 mr-10 rounded-md border-2 border-primary px-8 py-2 font-medium  transition hover:border-muted hover:bg-muted  "
-              }
-              asChild
-            >
-              <Link href="/dashboard">Sign In</Link>
-            </Button>
-            <Button
-              onClick={handleSignUp}
-              className={
-                " w-30 mr-8 rounded-md text-foreground border-2 border-muted bg-muted px-8 py-2 font-medium transition hover:border-primary hover:bg-primary "
-              }
-            >
-              <Link href="/dashboard">Sign Up</Link>
-            </Button>
+            <SignIn />
+            <SignUp />
 
             <ModeToggle />
           </div>
@@ -164,7 +129,7 @@ const LandingPage = () => {
                   accordingly
                   <br />
                   Get to seamlessly customize your to-dos <br />
-                  <Button className="mt-12 flex h-12 w-44 cursor-pointer items-center justify-center rounded-lg border-2 border-primary bg-primary  px-4 py-3 font-mono font-medium transition hover:bg-muted hover:border-muted active:border-primary">
+                  <Button className="mt-12 flex h-12 w-44 cursor-pointer items-center justify-center rounded-lg border-2 border-primary bg-primary  px-4 py-3 font-mono font-medium transition hover:bg-primary/50 hover:border-primary/50 active:border-primary">
                     <Link href="/dashboard">
                       <p>Get Started</p>
                     </Link>
