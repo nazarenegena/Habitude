@@ -1,6 +1,5 @@
 import Navbar from "@/components/sections/Navbar";
 import Sidebar from "@/components/sections/Sidebar";
-import { TaskContextProvider } from "@/lib/context/taskContext";
 
 export default function DashboardLayout({ children }) {
   return (
