@@ -1,75 +1,70 @@
-"use client";
-import React, { useState } from "react";
-import Lottie from "lottie-react";
-import checklist from "@/public/images/checklistboard.json";
-import { MdMoreHoriz } from "react-icons/md";
-import { Card, CardDescription, CardTitle } from "../ui/card";
-import { Progress } from "../ui/progress";
-import { Calendar } from "../ui/calendar";
+'use client';
+import React, { useState } from 'react';
+import Lottie from 'lottie-react';
+import checklist from '@/public/images/checklistboard.json';
+import { MdMoreHoriz } from 'react-icons/md';
+import { Progress } from '../ui/progress';
+import { Calendar } from '../ui/calendar';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card';
+import { useTaskContext } from '@/lib/context/taskContext';
+import { Clock10Icon } from 'lucide-react';
+import { Checkbox } from '../ui/checkbox';
 
-const tasks = [
-  {
-    title: "Task 1",
-    time: "12.00pm",
-    valueRange: 30,
-  },
-  {
-    title: "Task 2",
-    time: "2.00pm",
-    valueRange: 60,
-  },
-  {
-    title: "Task 3",
-    time: "4.00pm",
-    valueRange: 90,
-  },
-  {
-    title: "Task 3",
-    time: "4.00pm",
-    valueRange: 10,
-  },
-];
 const EndDashboardDisplay = () => {
-  const [date, setDate] = useState(Date | undefined);
+  const { tasks } = useTaskContext();
 
   return (
-    <div className="mt-14 w-[30rem]">
-      <div className="ml-10 h-full">
-        <Calendar
+    <Card className='w-[30rem]'>
+      <CardHeader>
+        <CardTitle>Today`s Tasks</CardTitle>
+        <CardDescription>Aim to complete your task`s today.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className='h-full'>
+          {/* <Calendar
           mode="single"
           selected={date}
           onSelect={setDate}
           className="rounded-md border w-fit"
-        />
-        <div className="px-4 py-4 w-full">
-          {tasks.map((task, index) => (
+        /> */}
+          {tasks.map(task => (
             <div
-              key={index}
-              className="mt-2 hover:cursor-pointer flex items-center hover:bg-muted hover:rounded-md py-4 relative"
+              key={task.id}
+              className='hover:cursor-pointer flex items-center hover:bg-muted hover:rounded-md py-2 relative'
             >
-              <div>
+              <div className='h-10 w-10 bg-primary/10 rounded-sm'>
                 <Lottie
                   animationData={checklist}
                   loop={true}
-                  className="w-20 h-10"
+                  // className='w-10 h-10'
                 />
               </div>
 
-              <div className="ml-8 w-60">
-                <p className="text-xl tracking-widest"> {task.title}</p>
-                <p className="mt-2 text-muted-foreground tracking-widest">
-                  {task.time}
-                </p>
-                <Progress value={task.valueRange} />
+              <div className='ml-8'>
+                <p className='text-sm font-medium mb-1'>{task.name}</p>
+                <div className='flex items-center text-muted-foreground'>
+                  <Clock10Icon size={14} />
+                  <p className='text-xs font-semibold text-muted-foreground mx-2'>
+                    {task.start_time}
+                  </p>
+                </div>
               </div>
-              <div className="absolute right-6">
+              <div className='absolute right-6'>
+                <Checkbox />
                 <MdMoreHoriz size={20} />
               </div>
             </div>
           ))}
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 

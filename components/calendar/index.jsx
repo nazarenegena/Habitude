@@ -30,6 +30,7 @@ import {
   isWithinInterval
 } from 'date-fns';
 import { cn } from '@/lib/utils';
+import { Popover, PopoverTrigger, PopoverContent } from '../ui/popover';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
@@ -45,9 +46,17 @@ let COL_START_CLASSES = [
   'col-start-7'
 ];
 
-let COLORS = 'bg-rose-500 bg-orange-500';
+const colorVariants = {
+  green: 'bg-green-500',
+  orange: 'bg-orange-500',
+  yellow: 'bg-yellow-400',
+  blue: 'bg-blue-500',
+  red: 'bg-red-500',
+  rose: 'bg-rose-500'
+};
 
 const CustomCalendar = ({ schedules }) => {
+  console.log(schedules, 'schedules');
   let today = startOfDay(new Date());
   const [currentMonth, setCurrentMonth] = useState(format(today, 'MMM-yyyy'));
 
@@ -68,12 +77,10 @@ const CustomCalendar = ({ schedules }) => {
     setCurrentMonth(format(firstDayNextMonth, 'MMM-yyyy'));
   }
 
-  console.log(schedules, 'schedules');
-
   function checkIfWithinInterval(day, schedule) {
     return isWithinInterval(day, {
-      start: sub(new Date(schedule.start), { days: 1 }),
-      end: new Date(schedule.end)
+      start: sub(new Date(schedule.start_date), { days: 1 }),
+      end: new Date(schedule.end_date)
     });
   }
 
@@ -205,34 +212,46 @@ const CustomCalendar = ({ schedules }) => {
 export default CustomCalendar;
 
 function Schedules({ schedules }) {
-  console.log(schedules, 'schedules');
   return (
     <ol className='mt-2'>
       {schedules?.slice(0, 2).map(schedule => (
-        <li
-          key={schedule.id}
-          className={cn(
-            'bg-primary/25 my-1 hover:cursor-pointer hover:bg-primary/70 group flex px-2',
-            schedule.color ? `bg-${schedule.color}-500` : ''
+        <Popover key={schedule.id}>
+          <PopoverTrigger>
+            <li
+              key={schedule.id}
+              className={cn(
+                'bg-primary/25 my-1 hover:cursor-pointer hover:bg-primary/70 group flex px-2',
+                schedule.color ? `${colorVariants[schedule.color]}` : ''
+              )}
+            >
+              <p className='flex-auto truncate font-medium text-foreground group-hover:text-white overflow-hidden text-ellipsis'>
+                {schedule.title}
+              </p>
+              <time
+                dateTime={schedule.start_time}
+                className='ml-3 hidden flex-none text-gray-700 group-hover:text-white xl:block'
+              >
+                {schedule.start_time}
+              </time>
+              <span className='font-bold px-2 group-hover:text-white'>-</span>
+              <time
+                dateTime={schedule.end_time}
+                className='ml-0 hidden flex-none text-gray-700 group-hover:text-white xl:block'
+              >
+                {schedule.end_time}
+              </time>
+            </li>
+          </PopoverTrigger>
+          {schedule?.tasks?.length ? (
+            <PopoverContent className='w-80'>
+              {schedule.tasks?.map(task => {
+                return <div key={task.id}>{task?.name}</div>;
+              })}
+            </PopoverContent>
+          ) : (
+            ''
           )}
-        >
-          <p className='flex-auto truncate font-medium text-gray-900 group-hover:text-white'>
-            {schedule.title}
-          </p>
-          <time
-            dateTime={schedule.datetime}
-            className='ml-3 hidden flex-none text-gray-700 group-hover:text-white xl:block'
-          >
-            {schedule.start_time}
-          </time>
-          <span className='font-bold px-2 group-hover:text-white'>-</span>
-          <time
-            dateTime={schedule.datetime}
-            className='ml-0 hidden flex-none text-gray-700 group-hover:text-white xl:block'
-          >
-            {schedule.end_time}
-          </time>
-        </li>
+        </Popover>
       ))}
       {schedules?.length > 2 && (
         <li className='text-gray-500'>+ {schedules.length - 2} more</li>

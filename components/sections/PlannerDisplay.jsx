@@ -19,6 +19,7 @@ import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import AddEvent from '../calendar/AddEvent';
 import { usePlannerContext } from '@/lib/context/plannerContext';
 import CustomCalendar from '../calendar';
+import { GetPlans } from '@/actions/planner';
 
 const locales = {
   'en-US': enUS
@@ -33,14 +34,8 @@ const localizer = dateFnsLocalizer({
 });
 
 const PlannerDisplay = () => {
-  const [isMounted, setIsMounted] = useState(false);
-
   const { schedules } = usePlannerContext();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-  if (!isMounted) return null;
   return (
     <div className='p-4'>
       <Card>
@@ -52,30 +47,6 @@ const PlannerDisplay = () => {
         </CardHeader>
         <CardContent>
           <CustomCalendar schedules={schedules} />
-
-          <CardDescription>
-            {/* <Calendar
-              localizer={localizer}
-              events={schedules}
-              startAccessor='start'
-              endAccessor='end'
-              style={{ height: 500 }}
-              selectable
-              components={{
-                event: ({ event, children }) => (
-                  <div
-                    className='flex bg-red-600'
-                    onContextMenu={e => {
-                      alert(`${event.title} is clicked.`);
-                      e.preventDefault();
-                    }}
-                  >
-                    {event.title}
-                  </div>
-                )
-              }}
-            /> */}
-          </CardDescription>
         </CardContent>
       </Card>
     </div>

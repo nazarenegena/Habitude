@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL") // uses a direct connection
+}
+
+enum STATUS {
+  COMPLETED
+  PENDING
+  INPROGRESS
+}
+
+enum PRIORITY {
+  HIGH
+  LOW
+  MEDIUM
+}
+
+model User {
+  id             String    @id @default(cuid())
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  hashedPassword String
+  image          String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  plans          Plan[]
+  tasks          Task[]
+}
+
+model Plan {
+  id          String   @id @default(cuid())
+  title       String
+  start_date  DateTime
+  end_date    DateTime
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @default(now())
+  status      STATUS   @default(PENDING)
+  active      Boolean  @default(true)
+  tasks       Task[]
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  color       String
+  description String?
+  start_time  String?
+  end_time    String?
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  name        String
+  start_date  DateTime
+  end_date    DateTime
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @default(now())
+  status      STATUS   @default(PENDING)
+  active      Boolean  @default(true)
+  priority    PRIORITY @default(LOW)
+  Plan        Plan?    @relation(fields: [planId], references: [id])
+  planId      String?
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  description String?
+  start_time  String?
+  end_time    String?
+}
