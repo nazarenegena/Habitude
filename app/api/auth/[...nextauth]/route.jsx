@@ -1,39 +1,52 @@
-import NextAuth from "next-auth";
-import { compare } from "bcrypt";
-import { sql } from "@vercel/postgres";
-import CredentialsProvider from "next-auth/providers/credentials";
+import NextAuth from 'next-auth';
+import { compare } from 'bcrypt';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { prisma } from '@/lib/prisma';
 
 // the login route
-const handler = NextAuth({
+export const handler = NextAuth({
   session: {
-    strategy: "jwt",
+    strategy: 'jwt'
   },
   providers: [
     CredentialsProvider({
       credentials: {
         email: {},
-        password: {},
+        password: {}
       },
       async authorize(credentials, req) {
-        const response = await sql`
-        SELECT * FROM users WHERE email=${credentials?.email}`;
-        const user = response.rows[0];
+        if (!credentials.email || !credentials.password) {
+          throw new Error('Please enter an email and password');
+        }
+        // check to see if user exists
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials.email
+          }
+        });
 
-        const passwordCorrect = await compare(
-          credentials?.password || "",
-          user.password
-        );
-        if (passwordCorrect) {
-          return {
-            id: user.id,
-            email: user.email,
-          };
+        // if no user was found
+        if (!user || !user?.hashedPassword) {
+          throw new Error('No user found');
         }
 
-        return null;
-      },
-    }),
+        // check to see if password matches
+        const passwordMatch = await compare(
+          credentials.password,
+          user.hashedPassword
+        );
+
+        // if password does not match
+        if (!passwordMatch) {
+          throw new Error('Incorrect password');
+        }
+
+        return user;
+      }
+    })
   ],
+  adapter: PrismaAdapter(prisma)
 });
 
 export { handler as GET, handler as POST };
