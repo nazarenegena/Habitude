@@ -1,12 +1,13 @@
-'use client';
+"use client";
 
-import { GetTasks } from '@/actions/task';
-import { createContext, useContext, useState, useEffect } from 'react';
+import { GetTasks } from "@/actions/task";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const TaskContext = createContext([]);
 
 export const TaskContextProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
+  const [editTask, setEditTask] = useState({});
   useEffect(() => {
     async function fetchTasks() {
       const tasks = await GetTasks();
@@ -15,7 +16,7 @@ export const TaskContextProvider = ({ children }) => {
     fetchTasks();
   }, []);
   return (
-    <TaskContext.Provider value={{ tasks, setTasks }}>
+    <TaskContext.Provider value={{ tasks, setTasks, editTask, setEditTask }}>
       {children}
     </TaskContext.Provider>
   );
