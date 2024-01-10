@@ -1,7 +1,9 @@
-'use client';
-import React from 'react';
-import { TableCell, TableRow } from '@/components/ui/table';
-import { Badge } from './badge';
+"use client";
+import React from "react";
+import { useState } from "react";
+import { TableCell, TableRow } from "@/components/ui/table";
+import { Badge } from "./badge";
+import { toast } from "@/components/ui/use-toast";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,43 +16,43 @@ import {
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { Button } from './button';
-import { FlipHorizontalIcon } from 'lucide-react';
-import { BsThreeDots } from 'react-icons/bs';
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { BsThreeDots } from "react-icons/bs";
+import { DeleteTask, GetTasks, UpdateTaskStatus } from "@/actions/task";
+import { useTaskContext } from "@/lib/context/taskContext";
+import AddTask from "../AddTask";
+
 export const colors = {
-  high: 'destructive',
-  low: 'default',
-  medium: 'secondary'
+  high: "destructive",
+  low: "default",
+  medium: "secondary",
 };
 
-const statuses = [
-  {
-    value: 'backlog',
-    label: 'Backlog'
-  },
-  {
-    value: 'todo',
-    label: 'Todo'
-  },
-  {
-    value: 'in progress',
-    label: 'In Progress'
-  },
-  {
-    value: 'done',
-    label: 'Done'
-  },
-  {
-    value: 'canceled',
-    label: 'Canceled'
-  }
-];
-
 const Task = ({ task }) => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const { tasks, setTasks } = useTaskContext();
+  const { editTask, setEditTask } = useTaskContext();
 
+  const handleUpdateTaskStatus = async (status) => {
+    await UpdateTaskStatus(task.id, status);
+    const updatedTasks = await GetTasks();
+    setTasks(updatedTasks);
+  };
+
+  const handleDeleteTask = async () => {
+    await DeleteTask(task.id);
+    const deletedTask = await GetTasks();
+    setTasks(deletedTask);
+    toast({
+      title: "Success",
+      description: "Task Deleted",
+      variant: "default",
+    });
+    console.log("task deleted", task);
+  };
   return (
     <TableRow>
       <TableCell>{task.name}</TableCell>
@@ -59,72 +61,90 @@ const Task = ({ task }) => {
       <TableCell>
         <Badge variant={colors[task?.priority?.toLowerCase()]}>
           {task.priority}
-        </Badge>{' '}
+        </Badge>{" "}
       </TableCell>
       <TableCell>
-        <Badge variant={colors[task?.status?.toLowerCase()]}>
-          {task.status}
-        </Badge>{' '}
+        {(() => {
+          switch (task.status) {
+            case "COMPLETED":
+              return (
+                <Badge
+                  variant={colors[task.status.toLowerCase()]}
+                  className="bg-green-500"
+                >
+                  {task.status}
+                </Badge>
+              );
+
+            case "PENDING":
+              return (
+                <Badge
+                  variant={colors[task.status.toLowerCase()]}
+                  className="bg-red-500"
+                >
+                  {task.status}
+                </Badge>
+              );
+
+            case "INPROGRESS":
+              return (
+                <Badge
+                  variant={colors[task.status.toLowerCase()]}
+                  className="bg-purple-500"
+                >
+                  {task.status}
+                </Badge>
+              );
+
+            default:
+              return null; // or any default JSX element or message
+          }
+        })()}
       </TableCell>
       <TableCell>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
-              variant='ghost'
-              className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'
+              variant="ghost"
+              className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
             >
               <BsThreeDots />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className='w-56'>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuContent className="w-56 ">
+            <DropdownMenuLabel className="flex justify-center">
+              Task Status
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                Profile
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            <DropdownMenuGroup className="flex flex-col items-center">
+              <DropdownMenuItem
+                className="my-2 px-4 py-2"
+                onClick={() => handleUpdateTaskStatus("COMPLETED")}
+              >
+                Completed
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                Billing
-                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+              <DropdownMenuItem
+                className="my-2 px-4 py-2"
+                onClick={() => handleUpdateTaskStatus("PENDING")}
+              >
+                Pending
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                Settings
-                <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                Keyboard shortcuts
-                <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+              <DropdownMenuItem
+                className="my-2 px-4 py-2"
+                onClick={() => handleUpdateTaskStatus("INPROGRESS")}
+              >
+                In Progress
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>Team</DropdownMenuItem>
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
-                <DropdownMenuPortal>
-                  <DropdownMenuSubContent>
-                    <DropdownMenuItem>Email</DropdownMenuItem>
-                    <DropdownMenuItem>Message</DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>More...</DropdownMenuItem>
-                  </DropdownMenuSubContent>
-                </DropdownMenuPortal>
-              </DropdownMenuSub>
-              <DropdownMenuItem>
-                New Team
-                <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>GitHub</DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
-            <DropdownMenuItem disabled>API</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              Log out
-              <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-            </DropdownMenuItem>
+            <div className="flex justify-around py-6">
+              <AddTask task={task} />
+              <RiDeleteBin6Line
+                className="cursor-pointer"
+                onClick={() => handleDeleteTask()}
+                size={22}
+                fill="#EF4444"
+              />
+            </div>
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>
