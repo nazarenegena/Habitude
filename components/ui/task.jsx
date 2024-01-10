@@ -3,6 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Badge } from "./badge";
+import { toast } from "@/components/ui/use-toast";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -45,6 +46,11 @@ const Task = ({ task }) => {
     await DeleteTask(task.id);
     const deletedTask = await GetTasks();
     setTasks(deletedTask);
+    toast({
+      title: "Success",
+      description: "Task Deleted",
+      variant: "default",
+    });
     console.log("task deleted", task);
   };
   return (

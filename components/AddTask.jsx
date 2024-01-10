@@ -19,6 +19,7 @@ import { useTaskContext } from "@/lib/context/taskContext";
 import { useForm } from "react-hook-form";
 import { v4 as uuid } from "uuid";
 import { CiEdit } from "react-icons/ci";
+import { toast } from "@/components/ui/use-toast";
 
 import {
   Form,
@@ -69,8 +70,18 @@ const AddTask = ({ title, task }) => {
   const handleSubmitNewTodo = async (data) => {
     if (task) {
       await handleUpdateTask(data);
+      toast({
+        title: "Success",
+        description: "Task Updated.",
+        variant: "default",
+      });
     } else {
       await handleAddTask(data);
+      toast({
+        title: "Success",
+        description: "Task Added",
+        variant: "default",
+      });
     }
   };
 
@@ -81,7 +92,11 @@ const AddTask = ({ title, task }) => {
     };
     const { task } = await CreateTask(payload);
     setTasks([task, ...tasks]);
-
+    toast({
+      title: "Success",
+      description: "Task Added",
+      variant: "default",
+    });
     setOpen(false);
     form.reset();
   };
@@ -89,7 +104,11 @@ const AddTask = ({ title, task }) => {
   const handleUpdateTask = async (data) => {
     await UpdateTask(task.id, data);
     const updatedTasks = await GetTasks();
-
+    toast({
+      title: "Success",
+      description: "Task Updated.",
+      variant: "default",
+    });
     setTasks(updatedTasks);
     setOpen(false);
     form.reset();
@@ -225,6 +244,26 @@ const AddTask = ({ title, task }) => {
                       </FormItem>
                     )}
                   />
+                  <div className="grid grid-cols-2 my-2 gap-2">
+                    <div className="grid w-full items-center gap-1.5">
+                      <Label htmlFor="time">Start Time</Label>
+                      <Input
+                        aria-label="Choose time"
+                        className="w-full"
+                        type="time"
+                        {...form.register("start_time")}
+                      />
+                    </div>
+                    <div className="grid w-full items-center gap-1.5">
+                      <Label htmlFor="time">End Time</Label>
+                      <Input
+                        aria-label="Choose time"
+                        className="w-full"
+                        type="time"
+                        {...form.register("end_time")}
+                      />
+                    </div>
+                  </div>
                   <div className="items-center py-4">
                     <Label htmlFor="notes">Notes</Label>
                     <Textarea

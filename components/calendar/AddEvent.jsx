@@ -71,7 +71,7 @@ const AddEvent = () => {
 
       toast({
         title: "Success",
-        description: "PLan created.",
+        description: "Plan created.",
         variant: "default",
       });
 
@@ -79,6 +79,7 @@ const AddEvent = () => {
     } catch (error) {
       console.log(error, "error");
     }
+    form.reset();
   }
 
   return (
@@ -88,10 +89,7 @@ const AddEvent = () => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Schedule</DialogTitle>
-          <DialogDescription>
-            Create a new schedule and add tasks to it
-          </DialogDescription>
+          <DialogTitle>Add Your Category</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleAddEvent)}>
@@ -102,7 +100,7 @@ const AddEvent = () => {
                 <FormItem>
                   <FormLabel>Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="shadcn" {...field} />
+                    <Input placeholder="category" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
