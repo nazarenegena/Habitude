@@ -20,7 +20,6 @@ const TodoList = () => {
     <Table className="mt-6">
       <TableHeader>
         <TableRow>
-          <TableHead></TableHead>
           <TableHead>Task</TableHead>
           <TableHead>Schedule</TableHead>
           <TableHead>Priority</TableHead>

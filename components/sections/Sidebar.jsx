@@ -36,7 +36,7 @@ const SidebarItem = ({ className, href, title, icon }) => {
   return (
     <Link
       href={href}
-      className={`${className} hover:bg-muted active:bg-primary hover:rounded-md text-lg  px-5 py-5  mx-0 my-2 cursor-pointer flex flex-row transition ease-in-out delay-150 duration-300 items-center `}
+      className={`${className} hover:bg-muted active:bg-primary hover:rounded-md text-lg  px-5 py-5  mx-0 my-10 cursor-pointer flex flex-row transition ease-in-out delay-150 duration-300 items-center `}
     >
       <span className="mr-6">{icon}</span>
       {title}
@@ -61,7 +61,7 @@ const Sidebar = () => {
             md:flex
             "
       >
-        <div className="flex py-6">
+        <div className="flex py-10">
           <Link
             href="/"
             className="text-2xl ml-5 flex tracking-widest font-semibold cursor-pointer"
@@ -73,9 +73,10 @@ const Sidebar = () => {
         <div className="">
           {nav.map((navItem, index) => (
             <SidebarItem
-              // className={pathname == "/" ? "active" : ""}
               className={
-                pathname === `${navItem.link}` ? "bg-primary text-white" : null
+                pathname === `${navItem.link}`
+                  ? "bg-primary text-foreground"
+                  : null
               }
               key={index}
               title={navItem.title}
@@ -84,7 +85,7 @@ const Sidebar = () => {
             />
           ))}
         </div>
-        <div className="flex flex-col px-2">
+        <div className="flex flex-col px-2 ">
           <Lottie animationData={todoClip} loop={true} className="ml-10" />
           <AddTask title={"sidebar add"} />
         </div>
